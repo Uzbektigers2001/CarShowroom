@@ -21,7 +21,7 @@ namespace CarShowroom.Services
         {
             var bot = await _botClient.GetMeAsync(stoppingToken);
 
-            _logger.LogInformation($"Bot started successfully : {bot.Username}");
+            _logger.LogInformation("Bot started successfully : {bot.Username}", bot.Username);
 
             _botClient.StartReceiving(
                 _handler.HandleUpdateAsync,

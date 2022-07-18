@@ -20,14 +20,22 @@ namespace CarShowroom.Services
             throw new NotImplementedException();
         }
 
-        public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        public Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             var handler = update.Type switch
             {
-                UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken)
+                UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken),
+                UpdateType.Unknown => HandleUnknownUpdate(botClient, update, cancellationToken)
             };
+
+            return Task.CompletedTask;
         }
 
-        
+        private Task HandleUnknownUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Update type: {update.Type}", update.Type);
+
+            return Task.CompletedTask;
+        }
     }
 }
