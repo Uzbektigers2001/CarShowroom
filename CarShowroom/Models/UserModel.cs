@@ -10,7 +10,5 @@
         public string? LanguageCode { get; set; }
         public string? CardNumber { get; set; }
         public string? CardBalance { get; set; }
-
-
     }
 }
