@@ -25,11 +25,15 @@ namespace CarShowroom.Services
             var handler = update.Type switch
             {
                 UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken),
-                UpdateType.Unknown => HandleUnknownUpdate(botClient, update, cancellationToken)
+                UpdateType.CallbackQuery => HandleCollbackButton(botClient, update.CallbackQuery, cancellationToken),
+                UpdateType.Unknown => HandleUnknownUpdate(botClient, update, cancellationToken),
+                _ => throw new NotImplementedException()
             };
 
             return Task.CompletedTask;
         }
+
+       
 
         private Task HandleUnknownUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
@@ -37,5 +41,7 @@ namespace CarShowroom.Services
 
             return Task.CompletedTask;
         }
+
+        //CoreHtmlToImage
     }
 }

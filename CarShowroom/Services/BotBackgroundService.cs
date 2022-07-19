@@ -17,6 +17,7 @@ namespace CarShowroom.Services
             _handler = handler;
         }
 
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var bot = await _botClient.GetMeAsync(stoppingToken);
