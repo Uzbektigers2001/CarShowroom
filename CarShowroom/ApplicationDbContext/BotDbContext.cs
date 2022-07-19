@@ -10,9 +10,9 @@ namespace CarShowroom.ApplicationDbContext
 
         }
 
-        public DbSet<Brands> brands { get; set; }
-        public DbSet<CarModel> cars { get; set; }
-        public DbSet<OrderModel> orderModels { get; set; }
-        public DbSet<UserModel> users { get; set; }
+        public DbSet<Brands> Brands { get; set; }
+        public DbSet<CarModel> Cars { get; set; }
+        public DbSet<OrderModel> OrderModels { get; set; }
+        public DbSet<UserModel> Users { get; set; }
     }
 }
