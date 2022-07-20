@@ -5,14 +5,11 @@ namespace CarShowroom.ApplicationDbContext
 {
     public class BotDbContext : DbContext
     {
-        public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
-        {
+        public BotDbContext(DbContextOptions<BotDbContext> options) : base(options){}
 
-        }
-
-        public DbSet<Brands> brands { get; set; }
-        public DbSet<CarModel> cars { get; set; }
-        public DbSet<OrderModel> orderModels { get; set; }
-        public DbSet<UserModel> users { get; set; }
+        public DbSet<Brands> Brand { get; set; }
+        public DbSet<CarModel> Car { get; set; }
+        public DbSet<OrderModel> OrderModel { get; set; }
+        public DbSet<UserModel> User { get; set; }
     }
 }
