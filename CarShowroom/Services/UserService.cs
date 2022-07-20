@@ -47,12 +47,9 @@ public class UserService
         }
         }
         catch (System.Exception)
-        {
-            
+        {  
             throw new ArgumentNullException();
-        }
-        
-        
+        } 
     }
     public async Task<bool> UpdateUserLanguageCode(int? userId, string languageCode)
     {
@@ -71,11 +68,7 @@ public class UserService
         catch (System.Exception)
         {
           throw new DbUpdateException(); 
-            
-            
         }
         return false;
-        
-
     }
 }
