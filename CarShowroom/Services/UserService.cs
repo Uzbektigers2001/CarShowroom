@@ -21,7 +21,7 @@ public class UserService
         return user;
     }
    
-    public async Task<bool> Exits(int userId)
+    public async Task<bool> Exits(long userId)
         => await _dbContex.User.AnyAsync(user=>user.Id==userId);
     
     public async Task<bool> UpdateUser(UserModel user)
@@ -38,6 +38,20 @@ public class UserService
             return false;
            
         }
+    }
+    public async Task<bool> AddNewUser(UserModel user){
+        _dbContex.User.Add(user);
+        try
+        {
+            await _dbContex.SaveChangesAsync();
+            return true;
+        }
+        catch (System.Exception)
+        {
+            
+            return false;
+        }
+        
     }
     
     public async Task<string?> GetUserLanguageCode(int userId)

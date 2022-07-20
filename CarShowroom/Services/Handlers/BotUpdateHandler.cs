@@ -8,10 +8,12 @@ namespace CarShowroom.Services
     public partial class BotUpdateHandler : IUpdateHandler
     {
         private readonly ILogger<BotUpdateHandler> _logger;
+        private readonly UserService _userService;
 
-        public BotUpdateHandler(ILogger<BotUpdateHandler> logger)
+        public BotUpdateHandler(ILogger<BotUpdateHandler> logger,UserService userService)
         {
             _logger = logger;
+            _userService=userService;
 
         }
 
