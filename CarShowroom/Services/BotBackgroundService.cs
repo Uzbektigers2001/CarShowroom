@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 
@@ -16,6 +17,7 @@ namespace CarShowroom.Services
             _botClient = botClient;
             _handler = handler;
         }
+        
 
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
