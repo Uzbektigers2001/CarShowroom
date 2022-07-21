@@ -118,11 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="greeting" xml:space="preserve">
-    <value>hello dear &lt;strong&gt;{0}&lt;/strong&gt;This is   super,  🤷‍♀️ bot with super abiltites</value>
+    <value>Hello {0}, welcome to the  car buying bot</value>
     <comment/>
   </data>
   <data name="choose-language" xml:space="preserve">
-    <value> Choose language</value>
+    <value> Please select a language to use in the bot</value>
+    <comment/>
+  </data>
+  <data name="languageSelected" xml:space="preserve">
+    <value>{0} successfully installed</value>
     <comment/>
   </data>
 </root>

@@ -10,10 +10,11 @@ var token = builder.Configuration.GetValue("BotToken", string.Empty);
 // builder.Services.AddDbContext<BotDbContext>(option => option.UseSqlite(builder.Configuration.GetConnectionString("ConString")));
 builder.Services.AddSingleton<BotDbContext>(s=>new BotDbContext(builder.Configuration.GetConnectionString("ConString")));
 builder.Services.AddSingleton<TelegramBotClient>(new TelegramBotClient(token));
-builder.Services.AddSingleton<UserService>();
+// builder.Services.AddSingleton<UserService>();
 
 builder.Services.AddSingleton<IUpdateHandler,BotUpdateHandler>();
-
+builder.Services.AddLocalization();
+builder.Services.AddTransient<UserService>();
 builder.Services.AddHostedService<BotBackgroundService>();
 
 

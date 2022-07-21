@@ -118,11 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="greeting" xml:space="preserve">
-    <value>&amp;#10;Salom &lt;strong&gt;{0}&lt;/strong&gt; , bu ajoyib super 🤷‍♀️ qobiliyatli bot</value>
+    <value>Assalom alekum  xurmatli {0} mashina sotib oladigan botga xush kelibsiz </value>
     <comment/>
   </data>
   <data name="choose-language" xml:space="preserve">
-    <value>Tilni tanlang %4C : L %4D : M %4E : N</value>
+    <value>Botda foydalanish uchun iltimos tilni tanlang</value>
+    <comment/>
+  </data>
+  <data name="languageSelected" xml:space="preserve">
+    <value>{0} muvofaqqiyatli o'rnatildi</value>
     <comment/>
   </data>
 </root>

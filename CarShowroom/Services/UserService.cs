@@ -14,15 +14,27 @@ public class UserService
         _logger=logger;
     }
    
-    public async Task<UserModel?> GetUserAsync(int? Id)
+    public async Task<UserModel?> GetUserAsync(long? Id)
     {
         ArgumentNullException.ThrowIfNull(Id);
         var user=await _dbContex.User.FindAsync(Id);
         return user;
     }
    
-    public async Task<bool> Exits(long userId)
-        => await _dbContex.User.AnyAsync(user=>user.Id==userId);
+    public async Task<bool> Exits(long? userId){
+        ArgumentNullException.ThrowIfNull(userId);
+        try
+        {
+          return  await _dbContex.User.AnyAsync(user=>user.Id==userId);
+        }
+        catch (System.Exception)
+        {
+            return false;
+        }
+      
+         
+    }
+        
     
     public async Task<bool> UpdateUser(UserModel user)
     {
@@ -39,7 +51,8 @@ public class UserService
            
         }
     }
-    public async Task<bool> AddNewUser(UserModel user){
+    public async Task<bool> AddNewUser(UserModel user)
+    {
         _dbContex.User.Add(user);
         try
         {
@@ -52,10 +65,10 @@ public class UserService
             return false;
         }
         
-    }
-    
-    public async Task<string?> GetUserLanguageCode(int userId)
+    }   
+    public async Task<string?> GetUserLanguageCode(long? userId)
     {
+        ArgumentNullException.ThrowIfNull(userId);
         var user =await GetUserAsync(userId);
         try
         {
@@ -71,7 +84,7 @@ public class UserService
         } 
     }
     
-    public async Task<bool> UpdateUserLanguageCode(int? userId, string languageCode)
+    public async Task<bool> UpdateUserLanguageCode(long? userId, string languageCode)
     {
         ArgumentNullException.ThrowIfNull(userId);
         try
