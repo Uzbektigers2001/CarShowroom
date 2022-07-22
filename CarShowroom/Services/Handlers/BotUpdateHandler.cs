@@ -22,12 +22,10 @@ namespace CarShowroom.Services
             _scopeFactory=scopeFactory;
 
         }
-
         public Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
-
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             using var scope=_scopeFactory.CreateScope();       
@@ -36,27 +34,21 @@ namespace CarShowroom.Services
             CultureInfo.CurrentCulture=culture;
             CultureInfo.CurrentUICulture=culture;
             _localizer=scope.ServiceProvider.GetRequiredService<IStringLocalizer<BotLocalizer>>();
-
-
             var handler = update.Type switch
-            {
-                UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken),
-                UpdateType.CallbackQuery => HandleCollbackButton(botClient, update.CallbackQuery, cancellationToken),
-                UpdateType.Unknown => HandleUnknownUpdate(botClient, update, cancellationToken),
-                _ => throw new NotImplementedException()
-            };
-           await handler;
+                {
+                    UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken),
+                    UpdateType.CallbackQuery => HandleCollbackButton(botClient, update.CallbackQuery, cancellationToken),
+                    UpdateType.Unknown => HandleUnknownUpdate(botClient, update, cancellationToken),
+                    _ => throw new NotImplementedException()
+                };
+            await handler;
         }
-
-       
-
         private Task HandleUnknownUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Update type: {update.Type}", update.Type);
-
             return Task.CompletedTask;
         }
-         private async Task<CultureInfo> GetUserLocalizationFromDataBase(Message? message, CancellationToken cancellationToken)
+        private async Task<CultureInfo> GetUserLocalizationFromDataBase(Message? message, CancellationToken cancellationToken)
         {
             if(await _userService.Exits(message?.From?.Id))
             {
@@ -64,8 +56,6 @@ namespace CarShowroom.Services
                 return new CultureInfo(languageCode??"uz-Uz");
             }
                 return new CultureInfo("uz-Uz");  
-        }
-
-        
+        }     
     }
 }

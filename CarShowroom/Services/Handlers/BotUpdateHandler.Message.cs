@@ -62,23 +62,22 @@ namespace CarShowroom.Services
         }
         private  Task HandleUnkownMessage(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
         {
-            
-            return Task.CompletedTask;
+           _logger.LogInformation("UnkownMessage handled from{message.From.FirstName}", message.From.FirstName);
+           return Task.CompletedTask;
         }
         private  async Task HandleStartButtonAsync(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
         {
 
-            var LanguageButton = new ReplyKeyboardMarkup("Languages choose");
-
-LanguageButton.Keyboard = new KeyboardButton[][]
-    {
-        new KeyboardButton[]
-        {
-            new KeyboardButton(Constants.LanguageConstants.Uzb),
-            new KeyboardButton(Constants.LanguageConstants.Rus),
-            new KeyboardButton(Constants.LanguageConstants.Eng)
-        }
-    };
+        var LanguageButton = new ReplyKeyboardMarkup("Languages choose");
+        LanguageButton.Keyboard = new KeyboardButton[][]
+            {
+                new KeyboardButton[]
+                    {
+                        new KeyboardButton(Constants.LanguageConstants.Uzb),
+                        new KeyboardButton(Constants.LanguageConstants.Rus),
+                        new KeyboardButton(Constants.LanguageConstants.Eng)
+                    }
+            };
         LanguageButton.ResizeKeyboard=true;
         await client.SendTextMessageAsync(
             chatId:message?.Chat.Id,

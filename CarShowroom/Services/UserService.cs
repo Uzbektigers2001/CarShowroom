@@ -44,7 +44,7 @@ public class UserService
              await _dbContex.SaveChangesAsync();
              return true;
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             
             return false;
