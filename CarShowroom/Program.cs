@@ -11,6 +11,7 @@ var token = builder.Configuration.GetValue("BotToken", string.Empty);
 builder.Services.AddSingleton<BotDbContext>(s=>new BotDbContext(builder.Configuration.GetConnectionString("ConString")));
 builder.Services.AddSingleton<TelegramBotClient>(new TelegramBotClient(token));
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<CarService>();
 
 builder.Services.AddSingleton<IUpdateHandler,BotUpdateHandler>();
 

@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarShowroom.Migrations
 {
-    public partial class mymig : Migration
+    public partial class migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "brands",
+                name: "Brand",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -19,11 +19,11 @@ namespace CarShowroom.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_brands", x => x.Id);
+                    table.PrimaryKey("PK_Brand", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "cars",
+                name: "Car",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -40,11 +40,11 @@ namespace CarShowroom.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_cars", x => x.Id);
+                    table.PrimaryKey("PK_Car", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "orderModels",
+                name: "OrderModel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -56,42 +56,42 @@ namespace CarShowroom.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_orderModels", x => x.Id);
+                    table.PrimaryKey("PK_OrderModel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "users",
+                name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ChatId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ChatId = table.Column<long>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: true),
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
                     LastName = table.Column<string>(type: "TEXT", nullable: true),
                     LanguageCode = table.Column<string>(type: "TEXT", nullable: true),
-                    CardNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    CardBalance = table.Column<string>(type: "TEXT", nullable: false)
+                    CardNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    CardBalance = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "brands");
+                name: "Brand");
 
             migrationBuilder.DropTable(
-                name: "cars");
+                name: "Car");
 
             migrationBuilder.DropTable(
-                name: "orderModels");
+                name: "OrderModel");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "User");
         }
     }
 }
