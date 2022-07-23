@@ -17,14 +17,13 @@ namespace CarShowroom.Services
          
             var handler = message.Text switch
             {
-<<<<<<< HEAD
                 "/start" =>HandleStartButtonAsync(client,message,cancellationToken),
                 Constants.LanguageConstants.Uzb or
                 Constants.LanguageConstants.Eng or
                 Constants.LanguageConstants.Rus =>HandleChangeLanguageAsync(client,message,cancellationToken),
                 _=>Task.CompletedTask
             };
-             await result;
+             await handler;
             var from = message.From;
             _logger.LogInformation("Received message from {from!.FirstName} : {message.Text}", from!.FirstName, message.Text); 
         }
@@ -53,20 +52,40 @@ namespace CarShowroom.Services
                 CardNumber=null,
                 CardBalance=null});            
            }
+
             CultureInfo.CurrentCulture=new CultureInfo(languagecode);
             CultureInfo.CurrentUICulture=new CultureInfo(languagecode);
+
+
+            var BrandsQueueAndSettings = new ReplyKeyboardMarkup("BrandsQueueAndSettings");
+            BrandsQueueAndSettings.Keyboard = new KeyboardButton[][]
+                {
+                new KeyboardButton[]
+                    {
+                        new KeyboardButton(_localizer["Brands"]),
+                        new KeyboardButton(_localizer["Queue"]),
+                        new KeyboardButton(_localizer["Settings"])
+                    }
+                };
+            BrandsQueueAndSettings.ResizeKeyboard = true;
+
+
+
             await client.SendTextMessageAsync(
             chatId:message!.Chat.Id,
             text:_localizer["languageSelected",message.Text],
-            cancellationToken:cancellationToken 
+            replyMarkup: BrandsQueueAndSettings,
+            cancellationToken:cancellationToken
            );
-           
+
         }
+
         private  Task HandleUnkownMessage(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
         {
            _logger.LogInformation("UnkownMessage handled from{message.From.FirstName}", message.From.FirstName);
            return Task.CompletedTask;
         }
+
         private  async Task HandleStartButtonAsync(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
         {
 
@@ -92,100 +111,5 @@ namespace CarShowroom.Services
         }
     
        
-=======
-                "/start" => await client.SendTextMessageAsync(
-                         message.Chat.Id,
-                        "O'zingizga yoqqan companyani tanlang",
-                         replyMarkup: CarButtons.BrendsButtons()),
-                "Chevrolet" => await client.SendTextMessageAsync(
-                        message.Chat.Id,
-                        "O'zingizga yoqqan Mashinani tanlang",
-                        replyMarkup: CarButtons.ChevroletButtons()),
-
-                "Mercedes-Benz" => await client.SendTextMessageAsync(
-                        message.Chat.Id,
-                        "O'zingizga yoqqan Mashinani tanlang",
-                        replyMarkup: CarButtons.MersadesButtons()),
-
-                "Hyundai" => await client.SendTextMessageAsync(
-                       message.Chat.Id,
-                       "O'zingizga yoqqan Mashinani tanlang",
-                       replyMarkup: CarButtons.HundayButtons()),
-
-                "BMW" => await client.SendTextMessageAsync(
-                        message.Chat.Id,
-                        "O'zingizga yoqqan Mashinani tanlang",
-                        replyMarkup: CarButtons.BMWButtons()),
-
-                "Kia" => await client.SendTextMessageAsync(
-                        message.Chat.Id,
-                        "O'zingizga yoqqan Mashinani tanlang",
-                        replyMarkup: CarButtons.KiyaButtons()),
-
-                "Lada" => await client.SendTextMessageAsync(
-                        message.Chat.Id,
-                        "O'zingizga yoqqan Mashinani tanlang",
-                        replyMarkup: CarButtons.LadaButtons()),
-                "Tracker" => await client.SendPhotoAsync(
-                        message.Chat.Id,
-                       photo: @"https://www.supercars.net/blog/wp-content/uploads/2020/12/2021-BMW-M3-Competition-011-2160-scaled-1.jpg",
-                        cancellationToken: cancellationToken
-                )
-
-            };
-
-        }
-          //  var result= message.Text switch 
-          //  {
-          //      "/start" =>HandleStartButtonAsync(client,message,cancellationToken),
-          //      _=>Task.CompletedTask
-//
-          //      
-//
-          //  };
-          //  await result;
-          //  var from = message.From;
-          //  _logger.LogInformation("Received message from {from!.FirstName} : {message.Text}", from!.FirstName, message.Text);
-           
-           
-        
-
-       // private  Task HandleUnkownMessage(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
-       // {
-       //     
-       ////     return Task.CompletedTask;
-       //// }
-       //// private  async Task HandleStartButtonAsync(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
-       //// {
-       ////     if( await _userService.Exits(message.From.Id)){
-       ////        await client.SendTextMessageAsync(
-       ////             chatId:message.Chat.Id,
-       ////             text:"You already registerd",
-       ////             replyToMessageId:message.MessageId,
-       ////             cancellationToken:cancellationToken
-       ////         );
-       ////         return;
-       ////        
-       ////      }
-////
-       ////    await _userService.AddNewUser(new UserModel(){
-       ////     Id=message.From.Id,
-  //     //     ChatId=message.Chat.Id,
-       ////     UserName=message.From.Username,
-       ////     FirstName=message.From.FirstName,
-       ////     LastName=message.From.LastName,
-       ////     LanguageCode=message.From.LanguageCode,
-       ////     CardNumber=null,
-       ////     CardBalance=null});
-       ////     await client.SendTextMessageAsync(
-       ////             chatId:message.Chat.Id,
-       ////             text:"Success added",
-       ////             replyToMessageId:message.MessageId,
-       ////             cancellationToken:cancellationToken
-       ////         );
-////
-         //  
-        //}
->>>>>>> ca8004bbb25b625aee73deebd10fe41ef2917d76
     }
 }

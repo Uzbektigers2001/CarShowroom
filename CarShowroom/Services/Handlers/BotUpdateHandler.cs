@@ -15,7 +15,7 @@ namespace CarShowroom.Services
         private readonly IServiceScopeFactory _scopeFactory;
         private  IStringLocalizer<BotLocalizer> _localizer;
 
-        public BotUpdateHandler(ILogger<BotUpdateHandler> logger,UserService userService,IServiceScopeFactory scopeFactory)
+        public BotUpdateHandler(ILogger<BotUpdateHandler> logger,UserService userService,IServiceScopeFactory scopeFactory )
         {
             _logger = logger;
             _userService=userService;
