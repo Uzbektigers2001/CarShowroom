@@ -15,6 +15,8 @@ builder.Services.AddSingleton<TelegramBotClient>(new TelegramBotClient(token));
 builder.Services.AddSingleton<IUpdateHandler,BotUpdateHandler>();
 builder.Services.AddLocalization();
 builder.Services.AddTransient<UserService>();
+builder.Services.AddSingleton<PurchaseService>();
+builder.Services.AddSingleton<CarService>();
 builder.Services.AddHostedService<BotBackgroundService>();
 
 

@@ -21,40 +21,73 @@ namespace CarShowroom.Services
                 Constants.LanguageConstants.Uzb or
                 Constants.LanguageConstants.Eng or
                 Constants.LanguageConstants.Rus =>HandleChangeLanguageAsync(client,message,cancellationToken),
+                "Queue" => HandleQueueButtonAsync(client,message,cancellationToken),
                 _=>Task.CompletedTask
             };
              await handler;
             var from = message.From;
             _logger.LogInformation("Received message from {from!.FirstName} : {message.Text}", from!.FirstName, message.Text); 
         }
+
+        private async Task HandleQueueButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<OrderModel> PurchasedCars = await _purchaseService.GetAllPurchasedCars(Convert.ToInt32(message.Chat.Id));
+
+                var buttons = new List<InlineKeyboardButton>();
+                PurchasedCars.ForEach(x => buttons.Add(new InlineKeyboardButton(_carService.GetCarByIdAsync((long)x.Id)!.Name!)));
+
+                var markup = new InlineKeyboardMarkup(buttons);
+
+                string queueText = "";
+                int i = 1;
+                PurchasedCars.ForEach(x => queueText += $"{i++}. { _carService.GetCarByIdAsync((long)x.Id)!.Name }" + "\n");
+
+                await client.SendTextMessageAsync(message.Chat.Id,
+                            text: String.IsNullOrEmpty(queueText) ? _localizer["Hech qanday ma'lumot topilmadi"] : queueText,
+                            replyMarkup: markup,
+                            cancellationToken: cancellationToken
+                            );
+            }
+            catch (Exception ex)
+            {
+
+
+                _logger.LogInformation(ex.Message);
+            }
+        }
+
         private async Task HandleChangeLanguageAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
         {
-            string languagecode=message.Text switch
+            string languagecode = message.Text switch
             {
-                Constants.LanguageConstants.Uzb =>"uz-Uz",
-                Constants.LanguageConstants.Eng =>"en-En",
+                Constants.LanguageConstants.Uzb => "uz-Uz",
+                Constants.LanguageConstants.Eng => "en-En",
                 Constants.LanguageConstants.Rus => "ru-Ru",
-                _=>"uz-Uz"
+                _ => "uz-Uz"
             };
-           if(await _userService.Exits(message?.From?.Id))
-           {
-               await _userService.UpdateUserLanguageCode(message?.From?.Id,languagecode);
-           }
-           else
-           {
-                await _userService.AddNewUser(new UserModel(){
-                Id=message.From.Id,
-                ChatId=message.Chat.Id,
-                UserName=message.From.Username,
-                FirstName=message.From.FirstName,
-                LastName=message.From.LastName,
-                LanguageCode=languagecode,
-                CardNumber=null,
-                CardBalance=null});            
-           }
+            if (await _userService.Exits(message?.From?.Id))
+            {
+                await _userService.UpdateUserLanguageCode(message?.From?.Id, languagecode);
+            }
+            else
+            {
+                await _userService.AddNewUser(new UserModel()
+                {
+                    Id = Convert.ToInt32(message!.From!.Id),
+                    ChatId = message.Chat.Id,
+                    UserName = message.From.Username,
+                    FirstName = message.From.FirstName,
+                    LastName = message.From.LastName,
+                    LanguageCode = languagecode,
+                    CardNumber = null,
+                    CardBalance = null
+                });
+            }
 
-            CultureInfo.CurrentCulture=new CultureInfo(languagecode);
-            CultureInfo.CurrentUICulture=new CultureInfo(languagecode);
+            CultureInfo.CurrentCulture = new CultureInfo(languagecode);
+            CultureInfo.CurrentUICulture = new CultureInfo(languagecode);
 
 
             var BrandsQueueAndSettings = new ReplyKeyboardMarkup("BrandsQueueAndSettings");
@@ -100,12 +133,15 @@ namespace CarShowroom.Services
                     }
             };
         LanguageButton.ResizeKeyboard=true;
+
+
+
         await client.SendTextMessageAsync(
-            chatId:message?.Chat.Id,
-            text:_localizer["greeting",message.From.FirstName],
-            replyMarkup:LanguageButton,
-            cancellationToken:cancellationToken
-            );
+                    chatId:message?.Chat.Id,
+                    text:_localizer["greeting",message.From.FirstName],
+                    replyMarkup:LanguageButton,
+                    cancellationToken:cancellationToken
+                    );
 
            
         }
