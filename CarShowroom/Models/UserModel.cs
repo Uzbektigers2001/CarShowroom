@@ -1,21 +1,10 @@
-﻿namespace CarShowroom.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CarShowroom.Models
 {
     public class UserModel
     {
-        public UserModel(
-            // int id,
-            // int chatId,
-            // string? username,
-            // string? firstname,
-            // string? lastname,
-            // string? languagecode,
-            // string? cardnumber,
-            // string? cardbalance
-            
-            )
-        {
-            
-        }
+        [Key]
         public long Id { get; set; }
         public long ChatId { get; set; }
         public string? UserName { get; set; }
