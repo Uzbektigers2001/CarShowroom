@@ -18,4 +18,9 @@ public static class LanguageConstants
     public const string ВыберитеЯзык = "Выберите язык";
     public const string TilniTanlang = "Tilni tanlang";
 
+    public const string brandEnglish = "Brands";
+    public const string brandRussian = "Бренды";
+    public const string brandUzbek = "Brendlar";
+    
+
 }

@@ -22,7 +22,7 @@ namespace CarShowroom.Services
                 OrderModel orderModel = new OrderModel
                 {
                     CarId = carModel.Id,
-                    UserId = userModel.Id,
+                    UserId = (int)userModel.Id,
                     Sold = false,
                     Time = DateTime.Now
                 };

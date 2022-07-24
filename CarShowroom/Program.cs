@@ -18,14 +18,32 @@ builder.Services.AddTransient<UserService>();
 builder.Services.AddSingleton<PurchaseService>();
 builder.Services.AddSingleton<CarService>();
 builder.Services.AddHostedService<BotBackgroundService>();
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<BrandService>();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
 
 var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
 var supportedCultures = new[] { "uz-Uz","en-Us","ru-Ru" };
 var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
 app.UseRequestLocalization(localizationOptions);
+
+
 
 app.Run();

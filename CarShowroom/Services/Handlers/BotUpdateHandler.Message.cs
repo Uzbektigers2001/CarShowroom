@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using bot.Resources;
+using CarShowroom.Buttons;
 using CarShowroom.Constants;
 using CarShowroom.Models;
 using Microsoft.Extensions.Localization;
@@ -14,33 +15,12 @@ namespace CarShowroom.Services
     public partial class BotUpdateHandler
     {
 
-        private  async Task HandleMessageAsync(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
+        private  async Task HandleMessageAsync(
+            ITelegramBotClient client, 
+            Message? message, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(message);
 
-            //var res = _dbcontext.User.Where(x => x.Id != 0);
-
-            //_dbcontext.Brand.Add(new Brands
-            //{
-            //    BrandName = "Chevrolet"
-            //});
-
-
-            //_dbcontext.Car.Add(new CarModel
-            //{
-            //    Name = "Nexia",
-            //    BrandId = 1
-            //});
-
-
-            //_dbcontext.OrderModel.Add(new OrderModel
-            //{
-            //    CarId = 1,
-            //    Sold = false,
-            //    UserId = 1353460621,
-            //});
-            
-            //_dbcontext.SaveChanges();   
 
             var handler = message.Text switch
             {
@@ -54,12 +34,45 @@ namespace CarShowroom.Services
                 LanguageConstants.Настройки or
                 LanguageConstants.Settings or
                 LanguageConstants.Sozlamalar => HandleSettingsButtonAsync(client,message,cancellationToken),
+                LanguageConstants.brandEnglish or
+                LanguageConstants.brandRussian or
+                LanguageConstants.brandUzbek => HandleBrandsButtonAsync(client,message,cancellationToken),
+
+                
 
                 _=> HandleOtherMessage(client,message,cancellationToken)
             };
              await handler;
             var from = message.From;
             _logger.LogInformation("Received message from {from!.FirstName} : {message.Text}", from!.FirstName, message.Text); 
+        }
+
+        private async Task HandleBrandsButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
+        {
+            System.Console.WriteLine("brand tanlandi");
+               try
+           {
+         
+        
+            var brands= _brandService.GetBrands();
+            System.Console.WriteLine(brands.Count());
+            var btn=brands.ToArray();
+
+            var BrandButtons=TelegramButtons.InLineButtonBrand(btn,'b');
+            
+        
+        await client.SendTextMessageAsync(
+            chatId:message.Chat.Id,
+            text:"Brendni Tanlang",
+            replyMarkup:BrandButtons
+            );
+           }
+           catch(Exception e)
+           {
+             _logger.LogInformation(e.Message);
+           }
+
+            
         }
 
         private async Task HandleSettingsButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
@@ -148,8 +161,6 @@ namespace CarShowroom.Services
             }
             
         }
-
-        
 
         private async Task HandleQueueButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
         {
@@ -279,6 +290,5 @@ namespace CarShowroom.Services
            
         }
     
-       
     }
 }
