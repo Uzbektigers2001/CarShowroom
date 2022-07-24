@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarShowroom.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20220722195628_migrations")]
+    [Migration("20220724020446_migrations")]
     partial class migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
