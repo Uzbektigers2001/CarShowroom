@@ -37,10 +37,11 @@ namespace CarShowroom.Services
         {
             using var scope = _scopeFactory.CreateScope();
                 _userService = scope.ServiceProvider.GetRequiredService<UserService>();
-                var culture = await GetUserLocalizationFromDataBase(update.Message, cancellationToken);
+                var culture = await GetUserLocalizationFromDataBase(update, cancellationToken);
                 CultureInfo.CurrentCulture = culture;
                 CultureInfo.CurrentUICulture = culture;
                 _localizer = scope.ServiceProvider.GetRequiredService<IStringLocalizer<BotLocalizer>>();
+
             var handler = update.Type switch
                 {
                     UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken),
@@ -55,13 +56,24 @@ namespace CarShowroom.Services
             _logger.LogInformation("Update type: {update.Type}", update.Type);
             return Task.CompletedTask;
         }
-        private async Task<CultureInfo> GetUserLocalizationFromDataBase(Message? message, CancellationToken cancellationToken)
+        private async Task<CultureInfo> GetUserLocalizationFromDataBase(Update? update, CancellationToken cancellationToken)
         {
-            if(await _userService.Exits(message?.From?.Id))
+            
+            if(update.Message is not null)
+                if(await _userService.Exits(update.Message?.From?.Id))
+                {
+                    var languageCode=await _userService.GetUserLanguageCode(update.Message?.From?.Id);
+                    return new CultureInfo(languageCode??"uz-Uz");
+                }
+            else
             {
-                var languageCode=await _userService.GetUserLanguageCode(message?.From?.Id);
-                return new CultureInfo(languageCode??"uz-Uz");
+                if (await _userService.Exits(update.CallbackQuery?.From?.Id))
+                {
+                    var languageCode = await _userService.GetUserLanguageCode(update.CallbackQuery?.From?.Id);
+                    return new CultureInfo(languageCode ?? "uz-Uz");
+                }
             }
+
                 return new CultureInfo("uz-Uz");  
         }     
     }

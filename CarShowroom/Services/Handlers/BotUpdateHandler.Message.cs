@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
+using bot.Resources;
 using CarShowroom.Constants;
 using CarShowroom.Models;
+using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -104,7 +106,7 @@ namespace CarShowroom.Services
                     await HandleQueueButtonAsync(client, message,cancellationToken); 
 
                 }
-
+                 
 
                 var result = message.Text switch
                 {
@@ -185,8 +187,6 @@ namespace CarShowroom.Services
             }
             catch (Exception ex)
             {
-
-
                 _logger.LogInformation(ex.Message);
             }
         }
@@ -255,7 +255,7 @@ namespace CarShowroom.Services
         private  async Task HandleStartButtonAsync(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
         {
 
-        var LanguageButton = new ReplyKeyboardMarkup("Languages choose");
+            var LanguageButton = new ReplyKeyboardMarkup("Languages choose");
         LanguageButton.Keyboard = new KeyboardButton[][]
             {
                 new KeyboardButton[]
