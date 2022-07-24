@@ -129,4 +129,16 @@
   <data name="/start" xml:space="preserve">
     <value>/start</value>
   </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Бренды</value>
+  </data>
+  <data name="Queue" xml:space="preserve">
+    <value>Очередь</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Choose language" xml:space="preserve">
+    <value>Выберите язык</value>
+  </data>
 </root>

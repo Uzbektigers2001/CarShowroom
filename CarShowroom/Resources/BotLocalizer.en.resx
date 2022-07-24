@@ -129,4 +129,19 @@
   <data name="/start" xml:space="preserve">
     <value>/start</value>
   </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Brands</value>
+  </data>
+  <data name="Hech qanday ma'lumot topilmadi" xml:space="preserve">
+    <value>No information found</value>
+  </data>
+  <data name="Queue" xml:space="preserve">
+    <value>Queue</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Choose language" xml:space="preserve">
+    <value>Choose language</value>
+  </data>
 </root>

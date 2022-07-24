@@ -42,6 +42,7 @@ namespace CarShowroom.Services
             try
             {
                 _dbcontext.OrderModel.FirstOrDefault(x => x.Id == orderCarId)!.Sold = true;
+                _dbcontext.SaveChanges();
             }
             catch(Exception ex)
             {
@@ -49,7 +50,7 @@ namespace CarShowroom.Services
             }
             return Task.CompletedTask;
         }
-
+            
 
         public Task<List<OrderModel>> GetAllPurchasedCars(int userId)
         {

@@ -129,4 +129,16 @@
   <data name="/start" xml:space="preserve">
     <value>/start</value>
   </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Brendlar</value>
+  </data>
+  <data name="Queue" xml:space="preserve">
+    <value>Navbat</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Sozlamalar</value>
+  </data>
+  <data name="Choose language" xml:space="preserve">
+    <value>Tilni tanlang</value>
+  </data>
 </root>
