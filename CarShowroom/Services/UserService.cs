@@ -17,7 +17,7 @@ public class UserService
     public async Task<UserModel?> GetUserAsync(long? Id)
     {
         ArgumentNullException.ThrowIfNull(Id);
-        var user=await _dbContex.User.FindAsync(Id);
+        var user=await _dbContex.User.FirstOrDefaultAsync(x => x.Id == Id);
         return user;
     }
    
@@ -31,7 +31,6 @@ public class UserService
         {
             return false;
         }
-      
          
     }
         

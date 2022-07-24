@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using bot.Resources;
+using CarShowroom.ApplicationDbContext;
 using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -13,13 +14,19 @@ namespace CarShowroom.Services
         private readonly ILogger<BotUpdateHandler> _logger;
         private  UserService _userService;
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly PurchaseService _purchaseService;
+        private readonly CarService _carService;
+        private readonly BotDbContext _dbcontext;
         private  IStringLocalizer<BotLocalizer> _localizer;
 
-        public BotUpdateHandler(ILogger<BotUpdateHandler> logger,UserService userService,IServiceScopeFactory scopeFactory)
+        public BotUpdateHandler(ILogger<BotUpdateHandler> logger,UserService userService,IServiceScopeFactory scopeFactory, PurchaseService purchaseService, CarService carService, BotDbContext dbContext )
         {
             _logger = logger;
             _userService=userService;
             _scopeFactory=scopeFactory;
+            _purchaseService = purchaseService;
+            _carService = carService;
+            _dbcontext = dbContext;
 
         }
         public Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
@@ -28,19 +35,19 @@ namespace CarShowroom.Services
         }
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            using var scope=_scopeFactory.CreateScope();       
-            _userService=scope.ServiceProvider.GetRequiredService<UserService>();
-            var culture= await GetUserLocalizationFromDataBase(update.Message,cancellationToken);
-            CultureInfo.CurrentCulture=culture;
-            CultureInfo.CurrentUICulture=culture;
-            _localizer=scope.ServiceProvider.GetRequiredService<IStringLocalizer<BotLocalizer>>();
+            using var scope = _scopeFactory.CreateScope();
+                _userService = scope.ServiceProvider.GetRequiredService<UserService>();
+                var culture = await GetUserLocalizationFromDataBase(update.Message, cancellationToken);
+                CultureInfo.CurrentCulture = culture;
+                CultureInfo.CurrentUICulture = culture;
+                _localizer = scope.ServiceProvider.GetRequiredService<IStringLocalizer<BotLocalizer>>();
             var handler = update.Type switch
                 {
                     UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken),
                     UpdateType.CallbackQuery => HandleCollbackButton(botClient, update.CallbackQuery, cancellationToken),
-                    UpdateType.Unknown => HandleUnknownUpdate(botClient, update, cancellationToken),
                     _ => throw new NotImplementedException()
                 };
+
             await handler;
         }
         private Task HandleUnknownUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
