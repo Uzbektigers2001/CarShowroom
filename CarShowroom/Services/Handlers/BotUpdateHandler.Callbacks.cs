@@ -18,18 +18,46 @@ namespace CarShowroom.Services
             //p bosilsa sotib olish bosilgan bo'ladi
             
             
-            var result=callbackQuery?.Data?.First() switch
+            var result=callbackQuery?.Data?.FirstOrDefault() switch
             {
                'b'=>HandleBrandCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
                'c'=>HandleCarCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
-               'p'=>HandleCarpurchaseCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
+               'p'=>HandleCarPurchaseCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
+               'd'=>HandleDeliveredCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
                
                _=>Task.CompletedTask
             };
            await result;
     }
 
-        private async Task HandleCarpurchaseCallbackQueryAsync(ITelegramBotClient botClient, CallbackQuery callbackQuery, CancellationToken cancellationToken)
+        private async Task HandleDeliveredCallbackQueryAsync(ITelegramBotClient botClient, CallbackQuery callbackQuery, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var car = callbackQuery?.Data?.Split('*');
+                var carId = int.Parse(car[1]);
+                var userId = callbackQuery?.From.Id;
+                var carmodel = _carService.GetCarByIdAsync(carId);
+                var usermodel = await _userService.GetUserAsync(userId);
+                var carTobeDestroyed = _dbcontext.OrderModel.FirstOrDefault(x => x.Id == carId && x.UserId == userId);
+                _dbcontext.OrderModel.Remove(carTobeDestroyed);
+                _dbcontext.SaveChanges();
+
+                var markup = new ReplyKeyboardMarkup(new KeyboardButton(_localizer["Back"]));
+                markup.ResizeKeyboard = true;
+
+                await botClient.SendTextMessageAsync(chatId:callbackQuery.From.Id,
+                        text: _localizer["✅"],
+                        replyMarkup: markup,
+                        cancellationToken: cancellationToken);
+
+            }catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+        }
+
+        private async Task HandleCarPurchaseCallbackQueryAsync(ITelegramBotClient botClient, CallbackQuery callbackQuery, CancellationToken cancellationToken)
         {
            System.Console.WriteLine($"Purchase method query = {callbackQuery.Data}");
            System.Console.WriteLine($"Purchase method queryId = {callbackQuery.Id}");
@@ -74,6 +102,7 @@ namespace CarShowroom.Services
             var car=callbackQuery?.Data?.Split('*');   
             var  carId=int.Parse(car[1]);
             var car1=_carService.GetCarByIdAsync(carId);
+
             await botClient.SendPhotoAsync(
                 chatId:callbackQuery.From.Id,
                 photo:car1.PictureUrl,

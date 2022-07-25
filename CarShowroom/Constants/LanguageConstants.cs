@@ -25,7 +25,11 @@ public static class LanguageConstants
     public const string chooseRussian = "🇷🇺 Выберите язык";
     public const string chooseEnglish = "🇺🇸 Choose language";
 
+    public const string Orqaga = "Orqaga";
+    public const string Назад = "Назад";
+    public const string Back = "Back";
 
-    
+
+
 
 }

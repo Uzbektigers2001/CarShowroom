@@ -40,15 +40,24 @@ namespace CarShowroom.Services
                 LanguageConstants.chooseEnglish or
                 LanguageConstants.chooseRussian or
                 LanguageConstants.chooseUzbek => HandleChooseLanguageButtonAsync(client,message,cancellationToken),
-                
+                LanguageConstants.Back or
+                LanguageConstants.Назад or
+                LanguageConstants.Orqaga => HandleBackButtonAsync(client, message, cancellationToken),
 
-                
 
-                _=> HandleOtherMessage(client,message,cancellationToken)
+
+
+                _ => HandleOtherMessage(client,message,cancellationToken)
             };
              await handler;
             var from = message.From;
             _logger.LogInformation("Received message from {from!.FirstName} : {message.Text}", from!.FirstName, message.Text); 
+        }
+
+        private async Task HandleBackButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
+        {
+            message.Text += "*Back"; 
+            await HandleChangeLanguageAsync(client,message,cancellationToken);
         }
 
         private async Task HandleChooseLanguageButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
@@ -216,7 +225,7 @@ namespace CarShowroom.Services
                 List<OrderModel> PurchasedCars = await _purchaseService.GetAllPurchasedCars(Convert.ToInt32(message.Chat.Id));
 
                 var buttons = new List<InlineKeyboardButton>();
-                PurchasedCars.ForEach(x => buttons.Add(new InlineKeyboardButton("").Text = _carService.GetCarByIdAsync((long)x.Id)!.Name));
+                PurchasedCars.ForEach(x => buttons.Add(new InlineKeyboardButton("") { CallbackData = "delivered" + "*" + x.Id, Text = _carService.GetCarByIdAsync((long)x.Id)!.Name }));
 
                 var markup = new InlineKeyboardMarkup(buttons);
 
@@ -238,6 +247,16 @@ namespace CarShowroom.Services
 
         private async Task HandleChangeLanguageAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
         {
+            string text = _localizer["languageSelected", message.Text];
+            try
+            {
+                if (message.Text.Split('*')[1] == "Back")
+                {
+                    text = _localizer["Home page"];
+                }
+            }
+            catch { }
+
             string languagecode = message.Text switch
             {
                 Constants.LanguageConstants.Uzb => "uz-Uz",
@@ -280,15 +299,14 @@ namespace CarShowroom.Services
                 };
             BrandsQueueAndSettings.ResizeKeyboard = true;
 
-
-
             await client.SendTextMessageAsync(
-                    chatId:message!.Chat.Id,
-                    text:_localizer["languageSelected",message.Text],
+                    chatId: message!.Chat.Id,
+                    text: text,
                     replyMarkup: BrandsQueueAndSettings,
-                    cancellationToken:cancellationToken
-           );
+                    cancellationToken: cancellationToken);
 
+            
+            
         }
 
         private  Task HandleUnkownMessage(ITelegramBotClient client, Message? message, CancellationToken cancellationToken)
