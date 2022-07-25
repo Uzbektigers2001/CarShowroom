@@ -23,6 +23,7 @@ namespace CarShowroom.Services
                'b'=>HandleBrandCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
                'c'=>HandleCarCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
                'p'=>HandleCarpurchaseCallbackQueryAsync(botClient,callbackQuery,cancellationToken),
+               
                _=>Task.CompletedTask
             };
            await result;

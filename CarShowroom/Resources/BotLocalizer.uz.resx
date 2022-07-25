@@ -134,23 +134,23 @@
     <comment/>
   </data>
   <data name="Brands" xml:space="preserve">
-    <value>Brendlar</value>
+    <value>🚍 Brendlar</value>
     <comment/>
   </data>
   <data name="Queue" xml:space="preserve">
-    <value>Navbat</value>
+    <value>🏍 Navbat</value>
     <comment/>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Sozlamalar</value>
+    <value>⚙️ Sozlamalar</value>
     <comment/>
   </data>
   <data name="Choose language" xml:space="preserve">
-    <value>Tilni tanlang</value>
+    <value>🇺🇿 Tilni tanlang</value>
     <comment/>
   </data>
   <data name="carName" xml:space="preserve">
-    <value>🚖 &lt;b&gt;Mashina nomi:&lt;/b&gt;</value>
+    <value>🚖 &lt;b&gt;Nomi:&lt;/b&gt;</value>
     <comment/>
   </data>
   <data name="carModel" xml:space="preserve">
@@ -174,7 +174,7 @@
     <comment/>
   </data>
   <data name="carBuy" xml:space="preserve">
-    <value> Sotib olish</value>
+    <value> 💸 Sotib olish</value>
     <comment/>
   </data>
   <data name="carMoney" xml:space="preserve">
@@ -191,6 +191,10 @@
   </data>
   <data name="brandChoosen" xml:space="preserve">
     <value>&lt;b&gt;{0}&lt;/b&gt; brendi tanlandi ushbu bo'limda quyidagi mashinalar mavjud</value>
+    <comment/>
+  </data>
+  <data name="chooseBrand" xml:space="preserve">
+    <value>🚩 Brendni tanlang</value>
     <comment/>
   </data>
 </root>

@@ -37,6 +37,10 @@ namespace CarShowroom.Services
                 LanguageConstants.brandEnglish or
                 LanguageConstants.brandRussian or
                 LanguageConstants.brandUzbek => HandleBrandsButtonAsync(client,message,cancellationToken),
+                LanguageConstants.chooseEnglish or
+                LanguageConstants.chooseRussian or
+                LanguageConstants.chooseUzbek => HandleChooseLanguageButtonAsync(client,message,cancellationToken),
+                
 
                 
 
@@ -45,6 +49,36 @@ namespace CarShowroom.Services
              await handler;
             var from = message.From;
             _logger.LogInformation("Received message from {from!.FirstName} : {message.Text}", from!.FirstName, message.Text); 
+        }
+
+        private async Task HandleChooseLanguageButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
+        {
+            try
+            {
+            
+                var LanguageButton = new ReplyKeyboardMarkup("Languages choose");
+                LanguageButton.Keyboard = new KeyboardButton[][]
+            {
+                new KeyboardButton[]
+                    {
+                        new KeyboardButton(Constants.LanguageConstants.Uzb),
+                        new KeyboardButton(Constants.LanguageConstants.Rus),
+                        new KeyboardButton(Constants.LanguageConstants.Eng)
+                    }
+            };
+                LanguageButton.ResizeKeyboard=true;
+                await client.SendTextMessageAsync(
+                    chatId:message.Chat.Id,
+                    text:_localizer["Choose language"],
+                    replyMarkup:LanguageButton
+            );
+
+            }
+            catch (System.Exception e)
+            {
+                
+               System.Console.WriteLine( e.Message);
+            }
         }
 
         private async Task HandleBrandsButtonAsync(ITelegramBotClient client, Message message, CancellationToken cancellationToken)
@@ -63,7 +97,7 @@ namespace CarShowroom.Services
         
         await client.SendTextMessageAsync(
             chatId:message.Chat.Id,
-            text:"Brendni Tanlang",
+            text:_localizer["chooseBrand"],
             replyMarkup:BrandButtons
             );
            }
@@ -281,7 +315,7 @@ namespace CarShowroom.Services
 
 
         await client.SendTextMessageAsync(
-                    chatId:message?.Chat.Id,
+                    chatId:message.Chat.Id,
                     text:_localizer["greeting",message.From.FirstName],
                     replyMarkup:LanguageButton,
                     cancellationToken:cancellationToken
