@@ -35,7 +35,8 @@ namespace CarShowroom.Services
         }
         public Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation(exception.Message);
+            return Task.CompletedTask;
         }
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
@@ -64,9 +65,9 @@ namespace CarShowroom.Services
         {
             try
             {
-                   if(await _userService.Exits(update.Message?.From?.Id))
+                   if(await _userService.Exits(update.Message?.From?.Id ?? update.CallbackQuery.From.Id))
                 {
-                    var languageCode=await _userService.GetUserLanguageCode(update.Message?.From?.Id);
+                    var languageCode=await _userService.GetUserLanguageCode(update.Message?.From?.Id ?? update.CallbackQuery.From.Id);
                     return new CultureInfo(languageCode??"uz-Uz");
                 }
                 else

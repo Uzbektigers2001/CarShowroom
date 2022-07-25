@@ -27,6 +27,7 @@ namespace CarShowroom.Services
                     Time = DateTime.Now
                 };
                 _dbcontext.OrderModel.Add(orderModel);
+                _dbcontext.SaveChanges();
             }
             catch (Exception ex)
             {
