@@ -183,4 +183,10 @@
   <data name="Home page" xml:space="preserve">
     <value>Bosh sahifa</value>
   </data>
+  <data name="If you have received a car, select the car you received from the buttons below" xml:space="preserve">
+    <value>Agar mashinani qabul qilgan bo'lsangiz pastdan pastdagi tugmalardan qabul qilgan mashinangizni tanlang</value>
+  </data>
+  <data name="Hech qanday ma'lumot topilmadi" xml:space="preserve">
+    <value>Hech qanday ma'lumot topilmadi</value>
+  </data>
 </root>

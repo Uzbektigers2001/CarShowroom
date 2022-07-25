@@ -183,4 +183,10 @@
   <data name="Home page" xml:space="preserve">
     <value>Домашняя страница</value>
   </data>
+  <data name="If you have received a car, select the car you received from the buttons below" xml:space="preserve">
+    <value>Если вы получили автомобиль, выберите автомобиль, который вы получили, с помощью кнопок ниже</value>
+  </data>
+  <data name="Hech qanday ma'lumot topilmadi" xml:space="preserve">
+    <value>Информация не найдена</value>
+  </data>
 </root>
